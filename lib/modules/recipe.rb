@@ -4,39 +4,43 @@ class Recipe < ActiveRecord::Base
   has_many :recipe_ingredients
   has_many :ingredients, through: :recipe_ingredients
 
-  def initialize()
-    @template_recipe_id = get_random_meal_template.id
-    set_average_time
+  delegate :avg_cooking_time, to: :template_recipe
+
+  after_create :set_attributes
+
+  #INITIALIZATION METHODS
+
+  def set_attributes
+    self.template_recipe = TemplateRecipe.all.sample
+    self.instructions = self.template_recipe.instructions
+    get_ingredients
+    self.save
   end
 
-  def get_random_meal_template
-    TemplateRecipe.all.sample
+  def get_ingredient_by_type(ingredient_type)
+    Ingredient.all.select { |ing| ing.category == ingredient_type }.sample
   end
 
-  def set_average_time
-    self.avg_cooking_time = self.template_recipe.avg_cooking_time
-  end
-
-  def set_instructions
-    self.instruction = self.template_recipe.instructions
-  end
-
-  def get_random_ingredient(ingredient_type)
-
+  def generate_recipe_ingredient_X_times(category, number)
+    number.times do
+      RecipeIngredient.create(recipe: self, ingredient: get_ingredient_by_type(category))
+    end
   end
 
   def get_ingredients
-    ingredient_requirement = template_recipe.ingredient_requirement
+    requirements = JSON.parse(self.template_recipe.ingredient_requirement)
 
-    g = ingredient_requirement[:grains]
-    s = ingredient_requirement[:proteins]
-    v = ingredient_requirement[:vegetables]
+    grain_amount = requirements["grains"]
+    protein_amount = requirements["proteins"]
+    veg_amount = requirements["veg"]
+    
+    requirements["base_ingredients"].each do |ing|
+      ingredient = Ingredient.find_by(name: ing)
+      RecipeIngredient.create(recipe: self, ingredient: ingredient)
+    end
 
-    self.ingredients = []
-
-    g.times do
-      
-
+    generate_recipe_ingredient_X_times("grain", grain_amount)
+    generate_recipe_ingredient_X_times("protein", protein_amount)
+    generate_recipe_ingredient_X_times("veg", veg_amount)
   end
-
 end

@@ -6,9 +6,6 @@ class TemplateRecipe < ActiveRecord::Base
   has_many :recipes
 end
 
-class Risotto < TemplateRecipe
-end
-
 # attr_accessor :type, :avg_cooking_time, :ingredient_requirement, :instructions
 
 # def initialize(hash)

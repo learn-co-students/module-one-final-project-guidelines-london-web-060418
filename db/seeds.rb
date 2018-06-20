@@ -3,13 +3,13 @@ TemplateRecipe.create(
   meal: "Risotto",
   avg_cooking_time: 60,
   ingredient_requirement: "{
-    \"grains\":1,
+    \"grains\":0,
     \"proteins\":0,
-    \"vegetables\":3,
+    \"veg\":3,
     \"base_ingredients\":[
-      \"oil\",
-      \"stock\",
-      \"risotto rice\"
+      \"Oil\",
+      \"Stock\",
+      \"Risotto Rice\"
     ]
   }",
   instructions: "{
@@ -46,5 +46,9 @@ quorn_pieces = Ingredient.create(name: "Quorn Pieces", category: "protein", prot
 lentils = Ingredient.create(name: "Lentils", category: "protein", protein: 10, carbs: 20, fat: 5)
 portobello = Ingredient.create(name: "Portobello mushroom", category: "protein", protein: 11, carbs: 15, fat: 7)
 soy_chunks = Ingredient.create(name: "Soy Chunks", category: "protein", protein: 18, carbs: 4, fat: 2)
+
+Ingredient.create(name: "Oil", category: "extra", protein: 18, carbs: 4, fat: 2)
+Ingredient.create(name: "Stock", category: "extra", protein: 18, carbs: 4, fat: 2)
+Ingredient.create(name: "Risotto Rice", category: "grain", protein: 18, carbs: 4, fat: 2)
 
 puts 'all done!'
