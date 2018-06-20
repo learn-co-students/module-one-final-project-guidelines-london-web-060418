@@ -21,10 +21,12 @@ def create_pokemon(name_or_id)
   pokemon = find_pokemon_in_pokedex(name_or_id)
   english_name = pokemon["names"].find { |name| name["language"]["name"] == "en" }
   habitat = pokemon["habitat"]["name"]
-  Pokemon.create(name: english_name["name"], pokemon_id: pokemon["id"].to_i, habitat: habitat)
+  Pokemon.create(name: english_name["name"], pokeapi_id: pokemon["id"].to_i, habitat: habitat)
   puts "Created #{english_name["name"]}!"
 end
 
-for i in 1..151
-  create_pokemon(i)
+def get_pokemon(beginning, ending)
+  for i in beginning..ending
+    create_pokemon(i)
+  end
 end

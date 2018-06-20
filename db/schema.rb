@@ -10,17 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180620122816) do
-
-  create_table "moves", force: :cascade do |t|
-    t.integer "pokemon_id"
-    t.string  "name"
-  end
+ActiveRecord::Schema.define(version: 20180620143137) do
 
   create_table "pokemons", force: :cascade do |t|
     t.string  "name"
-    t.integer "pokemon_id"
+    t.integer "pokeapi_id"
     t.string  "habitat"
+  end
+
+  create_table "user_pokemons", force: :cascade do |t|
+    t.integer "pokemon_id"
+    t.integer "user_id"
+    t.string  "name"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
   end
 
 end
