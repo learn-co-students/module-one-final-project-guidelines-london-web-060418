@@ -1,4 +1,4 @@
-class CreatePhotoTable <ActiveRecord::Migration
+class CreatePhotoTable < ActiveRecord::Migration[4.2]
   def change
     create_table :photos do |t|
       t.string   :url

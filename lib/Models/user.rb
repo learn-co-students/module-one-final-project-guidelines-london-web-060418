@@ -3,20 +3,20 @@ require 'Date'
 class User < ActiveRecord::Base
 
   # ---- User Follow User Relationship -----
-  has_many :followings, class_name: "Follow", foreign_key: "follower_id"
-  has_many :followeds, class_name: "User", through: :followings
-  has_many :subscriptions, class_name: "Follow", foreign_key: "followed_id"
-  has_many :followers, class_name: "User", through: :subscriptions
+  has_many :subscriptions, class_name: "Follow", foreign_key: "follower_id"
+  has_many :following_users, through: :subscriptions, source: :followed
+  has_many :distributions, class_name: "Follow", foreign_key: "followed_id"
+  has_many :followers, through: :distributions, source: :follower
   # ----------------------------------------
 
   has_many :photos
   has_many :comments
 
-  def follow_user(user)
-    self.followeds << user
+  def follow(user)
+    self.following_users << user
   end
 
-  def follow_user_via_username(username_str)
+  def follow_via_username(username_str)
     user = self.find_user(username_str)
     if(user)
       follow_user(user)
@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
     self.photos << photo
   end
 
-  def post_photo_via_url(photo_url, caption = "")
+  def post_via_url(photo_url, caption = "")
     photo = Photo.create(url: photo_url, caption: caption, posted_on: get_date)
     post_photo(photo)
   end
@@ -40,14 +40,10 @@ class User < ActiveRecord::Base
     comment = Comment.create(user_id: self.id, photo_id: photo.id, message: message, posted_on: get_date)
   end
 
-  def get_photos_posted
-    Photos.all.select {|photo| photo.user_id == self.id }
-  end
-
   def display_feed
     #TODO: et all the photos that the self has posted, and display tem
     #get all the photos that the self has posted, and display tem
-    get_photos_posted.each {|photo| puts photo.url }
+    self.photos.each {|photo| puts photo.url }
   end
 
   def self.find_user(username_str)
@@ -93,7 +89,7 @@ class User < ActiveRecord::Base
 
   def get_followed
     #returns ,people we have followed
-    self.followeds
+    self.following_users
   end
 
   def find_follower(username_str)

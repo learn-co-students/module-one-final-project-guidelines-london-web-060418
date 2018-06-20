@@ -1,4 +1,4 @@
-class CreateCommentTable <ActiveRecord::Migration
+class CreateCommentTable < ActiveRecord::Migration[4.2]
   def change
     create_table :comments do |t|
       t.string    :message

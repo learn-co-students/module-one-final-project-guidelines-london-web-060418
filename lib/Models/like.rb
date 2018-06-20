@@ -1,4 +1,4 @@
-class Likes <ActiveRecord::Base
+class Like < ActiveRecord::Base
   belongs_to :photos
-  belongs_to :users  
+  belongs_to :users
 end
