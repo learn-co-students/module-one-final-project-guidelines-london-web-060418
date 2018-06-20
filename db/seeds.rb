@@ -46,3 +46,5 @@ quorn_pieces = Ingredient.create("Quorn Pieces", "protein", 20, 3, 3)
 lentils = Ingredient.create("Lentils", "protein", 10, 20, 5)
 portobello = Ingredient.create("Portobello mushroom", "protein",11, 15, 7)
 soy_chunks = Ingredient.create("Soy Chunks", "protein", 18, 4, 2)
+
+puts 'all done!'
