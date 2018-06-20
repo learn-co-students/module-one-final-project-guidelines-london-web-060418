@@ -1,6 +1,6 @@
 #TEMPLATE RECIPES
 TemplateRecipe.create(
-  type: "Risotto",
+  meal: "Risotto",
   avg_cooking_time: 60,
   ingredient_requirement: "{
     \"grains\":1,
@@ -25,26 +25,26 @@ TemplateRecipe.create(
 )
 
 #INGREDIENTS
-quinoa = Ingredient.create("Quinoa", "grain", 10, 30, 8)
-brown_rice = Ingredient.create("Brown Rice", "grain", 8, 38, 5)
-barley = Ingredient.create("Barley", "grain", 14, 26, 10)
-buckwheat = Ingredient.create("Buckwheat", "grain", 11, 29, 3)
-pasta = Ingredient.create("Pasta", "grain", 6, 40, 2)
+quinoa = Ingredient.create(name: "Quinoa", category: "grain", protein: 10, carbs: 30, fat: 8)
+brown_rice = Ingredient.create(name: "Brown Rice", category: "grain", protein: 8, carbs: 38, fat: 5)
+barley = Ingredient.create(name: "Barley", category: "grain", protein: 14, carbs: 26, fat: 10)
+buckwheat = Ingredient.create(name: "Buckwheat", category: "grain", protein: 11, carbs: 29, fat: 3)
+pasta = Ingredient.create(name: "Pasta", category: "grain", protein: 6, carbs: 40, fat: 2)
 
-carrot = Ingredient.create("Carrot", "veg", 1, 6, 1)
-tomato = Ingredient.create("Tomato", "veg", 0.5, 4, 0)
-onion = Ingredient.create("Onion", "veg", 1, 6, 1)
-courgette = Ingredient.create("Courgette", "veg", 1, 6, 1)
-aubergine = Ingredient.create("Aubergine", "veg", 1, 6, 1)
-mushroom = Ingredient.create("Mushroom", "veg", 1, 6, 1)
-broccoli = Ingredient.create("Broccoli", "veg", 1, 6, 1)
-beetroot = Ingredient.create("Beetroot", "veg", 1, 6, 1)
+carrot = Ingredient.create(name: "Carrot", category: "veg", protein: 1, carbs: 6, fat: 1)
+tomato = Ingredient.create(name: "Tomato", category: "veg", protein: 0.5, carbs: 4, fat: 0)
+onion = Ingredient.create(name: "Onion", category: "veg", protein: 1, carbs: 6, fat: 1)
+courgette = Ingredient.create(name: "Courgette", category: "veg", protein: 1, carbs: 6, fat: 1)
+aubergine = Ingredient.create(name: "Aubergine", category: "veg", protein: 1, carbs: 6, fat: 1)
+mushroom = Ingredient.create(name: "Mushroom", category: "veg", protein: 1, carbs: 6, fat: 1)
+broccoli = Ingredient.create(name: "Broccoli", category: "veg", protein: 1, carbs: 6, fat: 1)
+beetroot = Ingredient.create(name: "Beetroot", category: "veg", protein: 1, carbs: 6, fat: 1)
 
-black_beans = Ingredient.create("Black_beans", "protein", 10, 20, 5)
-tofu = Ingredient.create("Tofu", "protein", 15, 10, 5)
-quorn_pieces = Ingredient.create("Quorn Pieces", "protein", 20, 3, 3)
-lentils = Ingredient.create("Lentils", "protein", 10, 20, 5)
-portobello = Ingredient.create("Portobello mushroom", "protein",11, 15, 7)
-soy_chunks = Ingredient.create("Soy Chunks", "protein", 18, 4, 2)
+black_beans = Ingredient.create(name: "Black_beans", category: "protein", protein: 10, carbs: 20, fat: 5)
+tofu = Ingredient.create(name: "Tofu", category: "protein", protein: 15, carbs: 10, fat: 5)
+quorn_pieces = Ingredient.create(name: "Quorn Pieces", category: "protein", protein: 20, carbs: 3, fat: 3)
+lentils = Ingredient.create(name: "Lentils", category: "protein", protein: 10, carbs: 20, fat: 5)
+portobello = Ingredient.create(name: "Portobello mushroom", category: "protein", protein: 11, carbs: 15, fat: 7)
+soy_chunks = Ingredient.create(name: "Soy Chunks", category: "protein", protein: 18, carbs: 4, fat: 2)
 
 puts 'all done!'

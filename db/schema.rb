@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 20180620111834) do
 
   create_table "ingredients", force: :cascade do |t|
     t.string  "name"
-    t.string  "type"
+    t.string  "category"
     t.integer "protein"
     t.integer "carbs"
     t.integer "fat"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20180620111834) do
   end
 
   create_table "template_recipes", force: :cascade do |t|
-    t.string  "type"
+    t.string  "meal"
     t.integer "avg_cooking_time"
     t.string  "ingredient_requirement"
     t.string  "instructions"
