@@ -1,4 +1,5 @@
 require 'Date'
+require 'pry'
 
 class User < ActiveRecord::Base
 
@@ -32,11 +33,11 @@ class User < ActiveRecord::Base
     post_photo(photo)
   end
 
-  def like_photo(photo)
+  def add_like_photo(photo)
     like = Like.create(user_id: self.id, photo_id: photo.id)
   end
 
-  def comment_photo(photo, message)
+  def add_comment_to_photo(photo, message)
     comment = Comment.create(user_id: self.id, photo_id: photo.id, message: message, posted_on: get_date)
   end
 
@@ -92,10 +93,43 @@ class User < ActiveRecord::Base
     self.following_users
   end
 
-  def find_follower(username_str)
+  def find_followed_user(username_str)
     follows = get_followed
     follows.all.find { |user| user.username == username_str }
   end
 
+  def show_user_feed(username)
+    user_to_display = find_followed_user(username)
+    if(user_to_display) then
+      photos_of_user_array = Photo.all.select {|photo| photo.user_id = user_to_display.id}
+      currentPos = 0
+      exit_loop = false
+      while(!exit_loop) do
+        photo = photos_of_user_array[currentPos]
+        Photo.load_image(photo) #Loads the image into the temrinal and loads the photos comments.
+        puts "Commands: like, comment, next, previous, exit"
+        input = STDIN.gets.chomp
+        case input
+          when "comment"
+            comment = STDIN.gets.chomp
+            add_comment_to_photo(photo, comment)
+            Photo.load_image(photo)
+          when "like"
+            add_like_photo(photo)
+            Photo.load_image(photo)
+          when "next"
+            currentPos+=1
+          when "previous"
+            currentPos-=1
+          when "exit"
+            exit_loop = true
+          else
+            puts "Wrong Function: Try Again"
+          end
+      end
+    else
+      puts "user not found / followed"
+    end
+  end
 
 end
