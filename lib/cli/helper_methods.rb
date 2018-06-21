@@ -22,7 +22,6 @@ def display_image
 end
 
 def main_menu
-  display_image
   puts "\n  How can I help you:"
   puts "\n             1. Generate New Recipe"
   puts "             2. Browse Recipe Book"
@@ -31,7 +30,7 @@ def main_menu
 end
 
 #1 - RECIPE GENERATOR
-def generate_recipe
+def generate_recipe(user)
   recipe = Recipe.create
   display_recipe(recipe)
   puts "\nWould you like to add this recipe to your Recipe Book? (Y/N)"
@@ -39,9 +38,9 @@ def generate_recipe
     input = gets.strip.downcase
 
     if input == "y" || input == "yes"
-      PersonalRecipe.create(template_recipe_id: recipe.template_recipe_id)
+      PersonalRecipe.create(template_recipe_id: recipe.template_recipe_id, user_id: user.id)
       puts "   - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-      puts "\n  The recipe has been added to your Recipe Book!\n"
+      puts "  The recipe has been added to your Recipe Book!\n"
       puts "   - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
       break
     elsif input == "n" || input == "no"
@@ -65,6 +64,7 @@ def display_recipe(recipe)
   instructions.each do |step, instruction|
     puts "#{step} - #{instruction}"
   end
+  puts ""
 end
 
 #2 - RECIPE BOOK
@@ -72,18 +72,50 @@ def recipe_book(user)
   book = PersonalRecipe.all.select do |p_r|
     p_r.user == user
   end
+  loop do
+    puts "\n~ ~ ~ ~ ~ ~ RECIPE BOOK ~ ~ ~ ~ ~ ~\n\n"
+    book.each_with_index do |recipe, index|
+      puts "#{index + 1}. #{recipe.name}"
+    end
+    puts " 0. Exit Recipe Book"
+    puts "\n Enter the NUMBER for the recipe you'd like to see:"
+    input = gets.strip.to_i
+
+    case input
+    when (input > 0 && input <= book.length) then
+      display_recipe(book[input - 1])
+      puts "\n Would you like to go back to Recipe Book? (Y/N)"
+      input2 = gets.strip.downcase
+      if input2 == "y" || input2 == "yes"
+        recipe_book(user)
+        break
+
+      elsif input2 == "n" || input2 == "no"
+        break
+
+      else
+        puts "I'm sorry, but I need a 'Yes'('Y') or a 'No'('N')"
+      end
+
+    when 0 then
+      break
+
+    else
+      " Please enter a number between 0 and #{book.length}."
+    end
+  end
 end
 
 #3 - HELP INFORMATION
 def help_info
-  puts "\nHelp - Shows information about commands"
-  puts "\n1 . Generate New Recipe"
-  puts "      Creates a new recipe using random ingredients."
-  puts "      This recipe can then be saved to your Recipe Book."
-  puts "\n2 . Browse Recipe Book"
-  puts "      Browse your collection of saved recipes."
-  puts "\n4 . Exit"
-  puts "      Exit the program, discarding any unsaved recipes."
+  puts "\n Help - Shows information about commands"
+  puts "\n 1 . Generate New Recipe"
+  puts "       Creates a new recipe using random ingredients."
+  puts "       This recipe can then be saved to your Recipe Book."
+  puts "\n 2 . Browse Recipe Book"
+  puts "       Browse your collection of saved recipes."
+  puts "\n 4 . Exit"
+  puts "       Exit the program, discarding any unsaved recipes."
 end
 
 #RUN PROGRAM
@@ -145,15 +177,15 @@ def run
 
   if user != nil
     puts "\nWelcome User! I'll be your Recipe Rabbit for today!\n\n"
-    main_menu
+    display_image
     loop do
+      main_menu
       puts "\nEnter the number or the first word of a command:"
       input = gets.strip.downcase
       case input
 
       when "1", "generate" then
-        generate_recipe
-        main_menu
+        generate_recipe(user)
 
       when "2", "browse" then recipe_book(user)
 
