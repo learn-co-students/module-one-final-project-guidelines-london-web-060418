@@ -47,7 +47,8 @@ class User < ActiveRecord::Base
   def display_feed
     #TODO: et all the photos that the self has posted, and display tem
     #get all the photos that the self has posted, and display tem
-    get_photos_posted.each {|photo| puts photo.url }
+    # get_photos_posted.each {|photo| puts photo.url }
+    puts "I am a display_feed function"
   end
 
   def self.find_user(username_str)
