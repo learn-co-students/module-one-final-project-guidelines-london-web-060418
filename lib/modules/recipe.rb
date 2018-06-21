@@ -1,3 +1,4 @@
+require 'pry'
 class Recipe < ActiveRecord::Base
   belongs_to :template_recipe
   belongs_to :user
@@ -24,7 +25,16 @@ class Recipe < ActiveRecord::Base
 
   def generate_recipe_ingredient_X_times(category, number)
     number.times do
-      RecipeIngredient.create(recipe: self, ingredient: get_ingredient_by_type(category))
+      generate_recipe_ingredient(category)
+    end
+  end
+
+  def generate_recipe_ingredient(category)
+    ingredient = get_ingredient_by_type(category)
+    if !self.recipe_ingredients.any? { |e| e.ingredient_id = ingredient.id }
+      generate_recipe_ingredient(category)
+    else
+      RecipeIngredient.create(recipe: self, ingredient: ingredient)
     end
   end
 
