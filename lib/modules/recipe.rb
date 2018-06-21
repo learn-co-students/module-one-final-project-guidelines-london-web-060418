@@ -3,7 +3,7 @@ class Recipe < ActiveRecord::Base
   belongs_to :user
   has_many :recipe_ingredients
   has_many :ingredients, through: :recipe_ingredients
-  has_one :nutrition_information
+  has_one :nutrition_fact
 
   delegate :avg_cooking_time, to: :template_recipe
 
@@ -30,7 +30,6 @@ class Recipe < ActiveRecord::Base
 
   def get_ingredients
     requirements = JSON.parse(self.template_recipe.ingredient_requirement)
-
     grain_amount = requirements["grains"]
     protein_amount = requirements["proteins"]
     veg_amount = requirements["veg"]
@@ -45,8 +44,18 @@ class Recipe < ActiveRecord::Base
     generate_recipe_ingredient_X_times("veg", veg_amount)
   end
 
-    def generate_nutrion_data
-      NutritionFact.create({:recipe_id => self.id})
-    end
+  def generate_nutrion_data
+    NutritionFact.create({:recipe_id => self.id})
+  end
+
+  def get_nutrition_data
+
+    nutrition_fact.set_total_macros
+    {
+      protein: nutrition_fact.protein,
+      carbs: nutrition_fact.carbs,
+      fat: nutrition_fact.fat
+    }
+  end
 
 end
