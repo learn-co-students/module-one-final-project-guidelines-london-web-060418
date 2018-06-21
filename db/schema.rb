@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 20180620111834) do
   create_table "personal_recipes", force: :cascade do |t|
     t.integer "template_recipe_id"
     t.string  "name"
-    t.integer "avg_cooking_time"
     t.string  "instructions"
   end
 
