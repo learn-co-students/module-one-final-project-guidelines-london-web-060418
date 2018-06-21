@@ -15,17 +15,19 @@ class User < ActiveRecord::Base
 
   def follow(user)
     self.following_users << user
+    puts "You have started following #{user.username}!!"
   end
 
   def follow_via_username(username_str)
     user = self.find_user(username_str)
     if(user)
-      follow_user(user)
+      follow(user)
     end
   end
 
   def post_photo(photo)
     self.photos << photo
+    puts "You have posted a photo!!"
   end
 
   def post_via_url(photo_url, caption = "")
@@ -42,11 +44,7 @@ class User < ActiveRecord::Base
   end
 
   def display_feed
-    #TODO: et all the photos that the self has posted, and display tem
-    #get all the photos that the self has posted, and display tem
-    self.photos.each {|photo| puts photo.url }
-    # get_photos_posted.each {|photo| puts photo.url }
-    puts "I am a display_feed function"
+    self.show_user_feed(self.username)
   end
 
   def self.find_user(username_str)
@@ -87,12 +85,22 @@ class User < ActiveRecord::Base
 
   def get_followers
       #returns people who have followed me
-      self.followers
+      follower_array = self.followers
+      if(follower_array.count > 1)
+        follower_array
+      else
+        puts "No Followers You Loser"
+      end
   end
 
   def get_followed
     #returns ,people we have followed
-    self.following_users
+    followed_users = self.following_users
+    if(follower_array.count > 1)
+      follower_array
+    else
+      puts "You're not following anyone...????"
+    end
   end
 
   def find_followed_user(username_str)

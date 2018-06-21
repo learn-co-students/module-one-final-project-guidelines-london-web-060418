@@ -1,5 +1,3 @@
-
-
 def login_or_create_account(login_choice)
   if login_choice == "LOGIN"
     login
@@ -13,29 +11,45 @@ def login_or_create_account(login_choice)
 end
 
 def main_menu(x)
+  puts ""
+  puts ""
+  puts ""
   exit_app = false
   while(!exit_app) do
     puts "What do you want to do #{x.username}? "
     puts "1. View a profile"
     puts "2. View own profile"
     puts "3. Follow a user"
-    puts "4. see the followers you have"
-    puts "5. Log Out"
-    response=gets.chomp
+    puts "4. See Your Followers"
+    puts "5. See Who You Follow"
+    puts "6. Post A Photo"
+    puts "10. Log Out"
+
+    puts ""
+    puts ""
+    
+
+    puts "Enter an option from above"
+    response = gets.chomp
     case response.to_i
     when 1
-      desired= gets.chomp
-      x.show_user_feed(desired.username)
+      puts "Enter a username:"
+      desired = gets.chomp
+      x.show_user_feed(desired)
     when 2
-      x.show_user_feed(x.username)
+      x.display_feed
     when 3
       desired= gets.chomp
-      x.follow_user_via_username(desired)
-      main_menu(x)
+      x.follow_via_username(desired)
     when 4
       x.get_followers.each { |fol| puts fol.username}
-      main_menu(x)
     when 5
+      x.get_followed.each { |fol| puts fol.username}
+    when 6
+      puts "Enter the direct link of an image:"
+      user_image_url = gets.chomp
+      x.post_via_url(user_image_url)
+    when 10
       exit_app = true
       puts "See you next time!"
     end
@@ -80,42 +94,6 @@ def run
   x=login_or_create_account(login_choice)
   main_menu(x)
 end
-
-
-# def show_user_feed(username)
-#     user_to_display = find_followed_user(username)
-#     if(user_to_display) then
-#       photos_of_user_array = Photo.all.select {|photo| photo.user_id = user_to_display.id}
-#       currentPos = 0
-#       exit_loop = false
-#       while(!exit_loop) do
-#         photo = photos_of_user_array[currentPos]
-#         Photo.load_image(photo) #Loads the image into the temrinal and loads the photos comments.
-#         puts "Commands: like, comment, next, previous, exit"
-#         input = STDIN.gets.chomp
-#         case input
-#           when "comment"
-#             comment = STDIN.gets.chomp
-#             add_comment_to_photo(photo, comment)
-#             Photo.load_image(photo)
-#           when "like"
-#             add_like_photo(photo)
-#             Photo.load_image(photo)
-#           when "next"
-#             currentPos+=1
-#           when "previous"
-#             currentPos-=1
-#           when "exit"
-#             exit_loop = true
-#           else
-#             puts "Wrong Function: Try Again"
-#           end
-#       end
-#     else
-#       puts "user not found / followed"
-#     end
-#   end
-
 
 def follow
 end

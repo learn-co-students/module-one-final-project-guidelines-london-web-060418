@@ -1,11 +1,11 @@
 User.delete_all
 Photo.delete_all
 
-louis = User.create(username: "louis_raymond")
-jigar = User.create(username: "jig_r")
-steven = User.create(username: "stevenuniverse")
-rishi = User.create(username: "ri-shitown")
-hanna = User.create(username: "hannamontana")
+louis = User.create(username: "louis_raymond", password:"1")
+jigar = User.create(username: "jig_r", password:"1")
+steven = User.create(username: "stevenuniverse", password:"1")
+rishi = User.create(username: "ri-shitown", password:"1")
+hanna = User.create(username: "hannamontana", password:"1")
 
 
 louis.post_via_url("http://wpuploads.appadvice.com/wp-content/uploads/2015/08/2015-08-13-1.34.57.png")
