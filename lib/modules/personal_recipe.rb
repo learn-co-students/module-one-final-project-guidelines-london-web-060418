@@ -13,6 +13,6 @@ class PersonalRecipe < ActiveRecord::Base
     Recipe.last.ingredients.each do |ing|
       RecipeIngredient.create(personal_recipe: self, ingredient: ing)
     end
-    # NUTRITION FACT
+    self.save
   end
 end

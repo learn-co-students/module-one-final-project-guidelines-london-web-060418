@@ -40,7 +40,7 @@ def generate_recipe(user)
     if input == "y" || input == "yes"
       PersonalRecipe.create(template_recipe_id: recipe.template_recipe_id, user_id: user.id)
       puts "   - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-      puts "  The recipe has been added to your Recipe Book!\n"
+      puts "      The recipe has been added to your Recipe Book!\n"
       puts "   - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
       break
     elsif input == "n" || input == "no"
@@ -55,6 +55,7 @@ end
 def display_recipe(recipe)
   instructions = JSON.parse(recipe.instructions)
   ingredients = recipe.ingredients
+  nutrition = NutritionFact.find_by(recipe_id: recipe.id)
   puts "        - - - PLACEHOLDER - - -"
   puts "\n  INGREDIENTS:\n"
   ingredients.each do |ing|
@@ -64,7 +65,10 @@ def display_recipe(recipe)
   instructions.each do |step, instruction|
     puts "#{step} - #{instruction}"
   end
-  puts ""
+  puts "\n  NUTRITIONAL FACTS:"
+  print " Carbohydates: #{nutrition[:carbs]}g -"
+  print " Protein: #{nutrition[:protein]}g -"
+  puts "Fats: #{nutrition[:fat]}g"
 end
 
 #2 - RECIPE BOOK
@@ -75,30 +79,46 @@ def recipe_book(user)
   loop do
     puts "\n~ ~ ~ ~ ~ ~ RECIPE BOOK ~ ~ ~ ~ ~ ~\n\n"
     book.each_with_index do |recipe, index|
-      puts "#{index + 1}. #{recipe.name}"
+      puts " #{index + 1}. #{recipe.name}"
     end
     puts " 0. Exit Recipe Book"
     puts "\n Enter the NUMBER for the recipe you'd like to see:"
     input = gets.strip.to_i
 
-    case input
-    when (input > 0 && input <= book.length) then
-      display_recipe(book[input - 1])
-      puts "\n Would you like to go back to Recipe Book? (Y/N)"
-      input2 = gets.strip.downcase
-      if input2 == "y" || input2 == "yes"
-        recipe_book(user)
-        break
+    if input == 0
+      break
 
-      elsif input2 == "n" || input2 == "no"
-        break
+    elsif input <= book.length
+      display_recipe(book[input - 1])
+      puts "\n What would you like to do with this recipe:\n"
+      puts " 1. Change recipe name"
+      puts " 2. Remove recipe from Recipe Book"
+      puts " 3. Go back to Recipe Book"
+      puts " 4. Return to Main Menu"
+      input2 = gets.strip.downcase
+
+      case input2
+      when "1" then
+
+      when "2" then
+
+      when "3" then
+
+      when "4" then
 
       else
-        puts "I'm sorry, but I need a 'Yes'('Y') or a 'No'('N')"
-      end
 
-    when 0 then
-      break
+      end
+      # if input2 == "y" || input2 == "yes"
+      #   recipe_book(user)
+      #   break
+      #
+      # elsif input2 == "n" || input2 == "no"
+      #   break
+      #
+      # else
+      #   puts "I'm sorry, but I need a 'Yes'('Y') or a 'No'('N')"
+      # end
 
     else
       " Please enter a number between 0 and #{book.length}."

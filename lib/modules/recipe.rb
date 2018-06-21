@@ -8,7 +8,7 @@ class Recipe < ActiveRecord::Base
 
   delegate :avg_cooking_time, to: :template_recipe
 
-  after_create :set_attributes, :generate_nutrion_data
+  after_create :set_attributes
 
   #INITIALIZATION METHODS
 
@@ -16,7 +16,10 @@ class Recipe < ActiveRecord::Base
     self.template_recipe = TemplateRecipe.all.sample
     self.instructions = self.template_recipe.instructions
     get_ingredients
+    generate_nutrition_data
+    get_nutrition_data
     self.name = self.generate_name
+
     self.save
   end
 
@@ -39,6 +42,7 @@ class Recipe < ActiveRecord::Base
 
   def generate_name
   "#{template_recipe.meal} with #{generate_string_from_relevant_ingredients}"
+
   end
 
   def generate_recipe_ingredient(category)
@@ -69,13 +73,14 @@ class Recipe < ActiveRecord::Base
     generate_recipe_ingredient_X_times("veg", veg_amount)
   end
 
-  def generate_nutrion_data
+  def generate_nutrition_data
     NutritionFact.create({:recipe_id => self.id})
   end
 
   def get_nutrition_data
 
     nutrition_fact.set_total_macros
+    nutrition_fact.save
     {
       protein: nutrition_fact.protein,
       carbs: nutrition_fact.carbs,
