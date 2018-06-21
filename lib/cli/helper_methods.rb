@@ -68,9 +68,9 @@ def display_recipe(recipe)
 end
 
 #2 - RECIPE BOOK
-def recipe_book
+def recipe_book(user)
   book = PersonalRecipe.all.select do |p_r|
-
+    p_r.user == user
   end
 end
 
@@ -155,8 +155,8 @@ def run
         generate_recipe
         main_menu
 
-      when "2", "browse" then recipe_book
-        
+      when "2", "browse" then recipe_book(user)
+
       when "3", "help" then help_info
 
       when "4", "exit" then
