@@ -21,21 +21,21 @@ ActiveRecord::Schema.define(version: 20180620111834) do
   end
 
   create_table "personal_recipes", force: :cascade do |t|
-    t.integer "avg_cooking_time"
-    t.string  "ingredients"
+    t.integer "template_recipe_id"
+    t.string  "name"
     t.string  "instructions"
-    t.string  "nutritional_info"
   end
 
   create_table "recipe_ingredients", force: :cascade do |t|
     t.integer "recipe_id"
+    t.integer "personal_recipe_id"
     t.integer "ingredient_id"
   end
 
   create_table "recipes", force: :cascade do |t|
     t.integer "template_recipe_id"
+    t.string  "name"
     t.string  "instructions"
-    t.string  "nutritional_info"
   end
 
   create_table "template_recipes", force: :cascade do |t|
