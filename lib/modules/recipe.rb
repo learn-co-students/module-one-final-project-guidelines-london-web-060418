@@ -7,7 +7,7 @@ class Recipe < ActiveRecord::Base
 
   delegate :avg_cooking_time, to: :template_recipe
 
-  after_create :set_attributes
+  after_create :set_attributes, :generate_nutrion_data
 
   #INITIALIZATION METHODS
 
