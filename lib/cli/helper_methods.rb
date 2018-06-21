@@ -52,14 +52,36 @@ def generate_recipe(user)
   end
 end
 
+#How many portions
+
+def get_portions(ingredients)
+  ingredients.map do |ingredient|
+    ingredient.quantity / 3 * prompt_for_portions
+  end
+end
+
+def prompt_for_portions
+  puts "How many people are you cooking for?"
+  puts "Please enter a number"
+  num_of_portions = gets.chomp
+  if !num_of_portions.is_a?
+    prompt_for_portions
+  else
+    return num_of_portions
+  end
+end
+
+
 def display_recipe(recipe)
   instructions = JSON.parse(recipe.instructions)
   ingredients = recipe.ingredients
+  ingredient_quantity = get_portions(ingredients)
   nutrition = NutritionFact.find_by(recipe_id: recipe.id)
   puts "        - - - PLACEHOLDER - - -"
   puts "\n  INGREDIENTS:\n"
   ingredients.each do |ing|
-    puts "o #{ing.name}"
+    i = ing.index
+    puts "o #{ing.name} #{ingredient_quantity[i]}(s)"
   end
   puts "\n  INSTRUCTIONS:\n"
   instructions.each do |step, instruction|
