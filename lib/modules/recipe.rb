@@ -3,10 +3,11 @@ class Recipe < ActiveRecord::Base
   belongs_to :user
   has_many :recipe_ingredients
   has_many :ingredients, through: :recipe_ingredients
+  has_one :nutrition_information
 
   delegate :avg_cooking_time, to: :template_recipe
 
-  after_create :set_attributes
+  after_create :set_attributes, :generate_nutrion_data
 
   #INITIALIZATION METHODS
 
@@ -33,7 +34,7 @@ class Recipe < ActiveRecord::Base
     grain_amount = requirements["grains"]
     protein_amount = requirements["proteins"]
     veg_amount = requirements["veg"]
-    
+
     requirements["base_ingredients"].each do |ing|
       ingredient = Ingredient.find_by(name: ing)
       RecipeIngredient.create(recipe: self, ingredient: ingredient)
@@ -43,4 +44,9 @@ class Recipe < ActiveRecord::Base
     generate_recipe_ingredient_X_times("protein", protein_amount)
     generate_recipe_ingredient_X_times("veg", veg_amount)
   end
+
+    def generate_nutrion_data
+      NutritionFact.create({:recipe_id => self.id})
+    end
+
 end
