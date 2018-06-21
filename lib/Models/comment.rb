@@ -1,7 +1,6 @@
-class Comment <ActiveRecord::Base
+class Comment < ActiveRecord::Base
   belongs_to :photos
   belongs_to :users
-
 
   def get_user
     User.find(self.user_id)

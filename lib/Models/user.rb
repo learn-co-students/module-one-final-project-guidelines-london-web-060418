@@ -108,10 +108,11 @@ class User < ActiveRecord::Base
         photo = photos_of_user_array[currentPos]
         Photo.load_image(photo) #Loads the image into the temrinal and loads the photos comments.
         puts "Commands: like, comment, next, previous, exit"
-        input = STDIN.gets.chomp
+        input = gets.chomp
         case input
           when "comment"
-            comment = STDIN.gets.chomp
+            puts "Enter a comment:"
+            comment = gets.chomp
             add_comment_to_photo(photo, comment)
             Photo.load_image(photo)
           when "like"
