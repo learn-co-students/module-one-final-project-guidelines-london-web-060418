@@ -29,6 +29,12 @@ class Recipe < ActiveRecord::Base
     end
   end
 
+
+  def generate_name
+    
+
+  end
+
   def generate_recipe_ingredient(category)
     ingredient = get_ingredient_by_type(category)
     if !self.recipe_ingredients.any? { |e| e.ingredient_id = ingredient.id }
