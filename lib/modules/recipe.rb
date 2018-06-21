@@ -17,7 +17,9 @@ class Recipe < ActiveRecord::Base
     self.instructions = self.template_recipe.instructions
     get_ingredients
     generate_nutrition_data
-    self.get_nutrition_data
+    get_nutrition_data
+    self.name = self.generate_name
+
     self.save
   end
 
@@ -31,18 +33,27 @@ class Recipe < ActiveRecord::Base
     end
   end
 
+  def generate_string_from_relevant_ingredients
+    names =  self.ingredients.map do |ingredient|
+      ingredient.name.downcase
+    end
+    names[-5 .. -1].join(", ").tap{|s| s[s.rindex(', '), 2] = ' and '}
+  end
 
   def generate_name
-
+  "#{template_recipe.meal} with #{generate_string_from_relevant_ingredients}"
 
   end
 
   def generate_recipe_ingredient(category)
     ingredient = get_ingredient_by_type(category)
-    if !self.recipe_ingredients.any? { |e| e.ingredient_id = ingredient.id }
+    if self.recipe_ingredients.any? { |e| e.ingredient_id == ingredient.id }
       generate_recipe_ingredient(category)
+
     else
+      puts ingredient.name
       RecipeIngredient.create(recipe: self, ingredient: ingredient)
+      self.recipe_ingredients = Recipe.find(self.id).recipe_ingredients
     end
   end
 
