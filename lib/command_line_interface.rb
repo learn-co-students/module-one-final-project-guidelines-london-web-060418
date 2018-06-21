@@ -1,97 +1,70 @@
 require "pry"
-
-def welcome
-  puts "Hello! My name is Professor Oakiron. My, you've grown!"
-end
-
-def get_input
-  gets.chomp
-end
-
-def sign_in
-  puts "Please type your username - if you're new, type what you'd like it to be:"
-end
-
-def get_username
-  @user_response = gets.chomp.downcase
-end
-
-def congrats
-  puts "Well, you're all signed in now, #{@user_response}. Off you go! Take good care of your pokemon! Hit enter to see your options."
-end
-
-
-def menu
-  puts "1. Display all pokemon in the pokedex
-        2. View your team
-        3. Add a pokemon to your team
-        4. Remove a pokemon from your team
-        5. Lucky dip
-
-    Please tell me what you'd like to do! Type the number of the task."
-
-    # gets.chomp.downcase
-    user_input = gets.chomp
-    # binding.pry
-    case user_input
-    when 1.to_s
-      puts "display af"
-      display_all_pokemon
-    when 2
-      method_2
-    when 3
-      method_3
-    when 4
-      method_4
-    when 5
-      lucky_dip
-    else
-      puts "Sorry! That's not a valid choice."
-      menu
-    end
-end
-
-# def get_next_task
-#   @user_input = gets
-#   if user_input == 1
-#     method_1
-#   elsif user_input == 2
-#     method_2
-#   elsif user_input == 2
-#     method_4
-#   elsif user_input == 2
-#     method_5
-#   elsif user_input == 5
-#     lucky_dip
-#   end
-# end
-
-def lucky_dip
-    puts "Some pokemon aren't so lucky - no one picks them :( they just want a chance to be somebody's best bud. Surprise! We just added a random pokemon to your team <3"
-    # code to do this eg user_pokemon.create(pokemon.random, user.username == @user_response)
-end
-
-def display_all_pokemon
-  Pokemon.all.each do |pokemon|
-    puts pokemon.name
+class CLI
+  def welcome
+    puts "Hello! My name is Professor Oakiron. My, you've grown!"
   end
+
+  def get_input
+    gets.chomp
+  end
+
+  def sign_in
+    puts "Please type your name:"
+  end
+
+  def get_username
+    user_input = gets.chomp
+    @user = User.find_or_create_by(name: user_input)
+  end
+
+  def congrats
+    puts "Well, you're all signed in now, #{@user.name}. Off you go! Take good care of your pokemon! "
+    menu
+  end
+
+  def menu
+    puts "
+    Main menu:
+
+          1. Display all pokemon in the pokedex
+          2. View your team
+          3. Catch a new pokemon
+          4. Release one of your pokemon
+          5. Lucky dip
+
+      Please tell me what you'd like to do! Type the number of the task."
+
+      user_input = gets.chomp.to_i
+      case user_input
+      when 1
+        Pokemon.display_all_pokemon
+      when 2
+        puts "Alright! Your team is:"
+        puts @user.pokemons.pluck(:name)
+        puts "
+What a great bunch!
+        "
+      when 3
+        @user.battle_pokemon
+      when 4
+        @user.remove_pokemon_from_team
+      when 5
+        @user.lucky_dip
+      else
+        puts "Sorry! That's not a valid choice. Here are the options again:"
+        menu
+      end
+      return_to_menu
+    end
+
+    def return_to_menu
+      puts "Would you like to return to the menu? Hit enter if yes, otherwise type 'exit' to exit."
+        user_input = gets.chomp
+        case user_input
+        when "exit"
+          exit
+        else
+          menu
+        end
+      end
 end
-
-
-
-
-
-# def find_pokemon(name)
-#   if Pokemon.all.find { |pokemon| pokemon.name == name}
-#     puts pokemon
-#   else
-#   puts "We can't find that pokemon! Sorry :("
-#   end
-# end
-
-welcome
-sign_in
-get_username
-congrats
-get_input
-menu
