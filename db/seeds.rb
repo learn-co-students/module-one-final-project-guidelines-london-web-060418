@@ -20,7 +20,7 @@ def create_pokemon(name_or_id)
   english_name = pokemon["names"].find { |name| name["language"]["name"] == "en" }
   habitat = pokemon["habitat"]["name"]
   Pokemon.create(name: english_name["name"], pokeapi_id: pokemon["id"].to_i, habitat: habitat)
-  puts "Created #{english_name["name"]}!"
+  puts "Created #{english_name["name"]}!".yellow.on_blue
 end
 
 
