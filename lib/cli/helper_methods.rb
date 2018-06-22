@@ -66,7 +66,15 @@ def get_portions(ingredients, num_of_portions)
 end
 
 def prompt_for_portions
-  puts "How many people are you cooking for?"
+  loop do
+    puts "How many people are you cooking for?"
+    input = gets.strip
+    if ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].include?(input)
+      return input
+    else
+      puts " Invalid command. Please try again."
+    end
+  end
 end
 
 
@@ -76,11 +84,10 @@ end
 def display_recipe(recipe)
   instructions = JSON.parse(recipe.instructions)
   ingredients = recipe.ingredients
-  prompt
-  num_of_portions = num_portions
+  num_of_portions = prompt_for_portions
   ingredient_quantity = get_portions(ingredients, num_of_portions)
   nutrition = NutritionFact.find_by(recipe_id: recipe.id)
-  puts "        - - - PLACEHOLDER - - -"
+  puts "        - - - #{recipe.name} - - -"
   puts "\n  INGREDIENTS:\n"
   ingredients.each do |ing|
     i = ingredients.index(ing)
@@ -107,15 +114,16 @@ def recipe_book(user)
     book.each_with_index do |recipe, index|
       puts " #{index + 1}. #{recipe.name}"
     end
-    puts " 0. Exit Recipe Book"
+    puts " 0. Close Recipe Book"
     puts "\n Enter the NUMBER for the recipe you'd like to see:"
     input = gets.strip.to_i
+    recipe = book[input - 1]
 
     if input == 0
       break
 
     elsif input <= book.length
-      display_recipe(book[input - 1])
+      display_recipe(recipe)
       puts "\n What would you like to do with this recipe?"
       puts " 1. Edit recipe's name"
       puts " 2. Remove recipe from Recipe Book"
@@ -126,21 +134,27 @@ def recipe_book(user)
 
       case input2
       when "1", "edit" then
+        puts "Current recipe name: #{recipe.name}"
         print "New recipe name: "
-        book[input - 1].name = gets.strip
-        book[input - 1].save
+        recipe.name = gets.strip
+        recipe.save
       when "2", "remove" then
-        book[input - 1].destroy
-        book.reload
+        recipe.destroy
+        book = PersonalRecipe.all.select do |p_r|
+          p_r.user == user
+        end
       when "3", "go" then
         recipe_book(user)
         break
       when "4", "return" then
         break
       else
-        puts "Invalid command. Please try again."      end
+        puts "Invalid command. Please try again."
+      end
     else
-      " Please enter a number between 0 and #{book.length}."
+      puts " Please enter a number between 0 and #{book.length}."
+      recipe_book(user)
+      break
     end
   end
 end
@@ -159,7 +173,7 @@ end
 
 #RUN PROGRAM
 def run
-  puts "\n/\\/\\/\\/\\/\\ - VEGAN GENERATOR - /\\/\\/\\/\\/\\"
+  puts "\n\n/\\/\\/\\/\\/\\ - VEGAN GENERATOR - /\\/\\/\\/\\/\\"
   user = nil
   loop do
     start_menu
@@ -195,8 +209,11 @@ def run
       puts "\n      S I G N   U P\n\n"
       print " Username: "
       username = gets.strip
+
       if User.find_by(username: username)
         puts "\n - X - X - This account already exists - X - X -\n"
+      elsif username.empty?
+        puts "\n Username must have at least 1 character"
       else
         print " Password: "
         password = gets.strip

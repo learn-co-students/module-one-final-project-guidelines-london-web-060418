@@ -13,6 +13,7 @@ class NutritionFact < ActiveRecord::Base
     ingredient_string
   end
 
+
   def get_data
     url = "https://trackapi.nutritionix.com/v2/natural/nutrients/"
     response = RestClient.post(url, {query: generate_query_string}.to_json, {
@@ -23,11 +24,10 @@ class NutritionFact < ActiveRecord::Base
     nutrion_hash = JSON.parse(response)
   end
 
-
   def get_macro(macro)
-    get_data["foods"].map do |food|
-      food[macro]
-    end.reduce {|a,b| a + b}
+    # get_data["foods"].map do |food|
+    #   food[macro]
+    # end.reduce {|a,b| a + b}
   end
 
   def set_total_macros

@@ -19,8 +19,7 @@ class Recipe < ActiveRecord::Base
     generate_nutrition_data
     get_nutrition_data
     self.name = self.generate_name
-    update_ingredient_quanity
-
+    update_ingredient_quantity
     self.save
   end
 
@@ -36,13 +35,14 @@ class Recipe < ActiveRecord::Base
 
   def generate_string_from_relevant_ingredients
     names =  self.ingredients.map do |ingredient|
-      ingredient.name.downcase
+      ingredient.name
     end
-    names[-5 .. -1].join(", ").tap{|s| s[s.rindex(', '), 2] = ' and '}
+    names[-3 .. -2].join(", ") + ", and " + names[-1]
+    # .tap{|s| s[s.rindex(', '), 2] = ' and '}
   end
 
   def generate_name
-  "#{template_recipe.meal} with #{generate_string_from_relevant_ingredients}"
+    "#{generate_string_from_relevant_ingredients} #{template_recipe.meal}"
   end
 
   def generate_recipe_ingredient(category)
@@ -51,7 +51,6 @@ class Recipe < ActiveRecord::Base
       generate_recipe_ingredient(category)
 
     else
-      puts ingredient.name
       RecipeIngredient.create(recipe: self, ingredient: ingredient)
       self.recipe_ingredients = Recipe.find(self.id).recipe_ingredients
     end
@@ -88,10 +87,14 @@ class Recipe < ActiveRecord::Base
     }
   end
 
-  def update_ingredient_quanity
+  def update_ingredient_quantity
     self.ingredients.each do |ingredient|
+<<<<<<< HEAD:lib/modules/recipe.rb
+      nutrition_fact.set_ingredient_measurements(ingredient)
+=======
       i = self.ingredients.index(ingredient)
       nutrition_fact.set_ingredient_measurments(ingredient, i)
+>>>>>>> master:lib/models/recipe.rb
       ingredient.save
     end
   end
