@@ -89,7 +89,12 @@ class Recipe < ActiveRecord::Base
 
   def update_ingredient_quantity
     self.ingredients.each do |ingredient|
+<<<<<<< HEAD:lib/modules/recipe.rb
       nutrition_fact.set_ingredient_measurements(ingredient)
+=======
+      i = self.ingredients.index(ingredient)
+      nutrition_fact.set_ingredient_measurments(ingredient, i)
+>>>>>>> master:lib/models/recipe.rb
       ingredient.save
     end
   end

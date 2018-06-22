@@ -1,3 +1,4 @@
+require 'pry'
 #LOGIN MENU
 def start_menu
   puts "\n                1. Login"
@@ -57,9 +58,9 @@ end
 
 def get_portions(ingredients, num_of_portions)
   ingredients_quantities = ingredients.map do |ingredient|
-    quantity = (ingredient.quantity.to_i / 3 * num_of_portions.to_i).to_s
+    quantity = (ingredient.quantity.to_f / 3 * num_of_portions.to_i).to_f.round(2)
     unit = ingredient.serving_unit
-    "#{quantity} #{unit}(s)"
+    "#{quantity} #{unit}"
   end
   ingredients_quantities
 end
@@ -75,6 +76,10 @@ def prompt_for_portions
     end
   end
 end
+
+
+
+
 
 def display_recipe(recipe)
   instructions = JSON.parse(recipe.instructions)
@@ -97,6 +102,7 @@ def display_recipe(recipe)
   print " Protein: #{nutrition[:protein]}g -"
   puts " Fats: #{nutrition[:fat]}g"
 end
+
 
 #2 - RECIPE BOOK
 def recipe_book(user)
