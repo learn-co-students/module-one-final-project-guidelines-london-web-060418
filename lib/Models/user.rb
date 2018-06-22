@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   end
 
   def follow_via_username(username_str)
-    user = self.find_user(username_str)
+    user = User.find_user(username_str)
     if(user)
       follow(user)
     end
@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   end
 
   def display_feed
-    self.show_user_feed(self)
+    User.show_user_feed(self)
   end
 
   def self.find_user(username_str)

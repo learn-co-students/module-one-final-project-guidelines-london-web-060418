@@ -30,7 +30,8 @@ def main_menu(x)
     when choices[1] #view own profi;e
       x.display_feed
     when choices[2] #follow a user
-     desired = PROMPT.ask('Enter Username To Follow:').chomp
+      desired = PROMPT.ask('Enter Username To Follow:')
+      binding.pry
       x.follow_via_username(desired)
     when choices[3] # see your followers
       x.get_followers.each { |fol| puts fol.username }
@@ -39,7 +40,7 @@ def main_menu(x)
     when choices[5] #post a phoo
       user_image_url = PROMPT.ask('Enter Image URL to Post:').chomp
       x.post_via_url(user_image_url)
-    when [6]
+    when choices[6]
       exit_app = true
       puts "See you next time!"
     end
