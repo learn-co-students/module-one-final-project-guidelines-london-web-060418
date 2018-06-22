@@ -62,22 +62,27 @@ class Photo < ActiveRecord::Base
     self.clear_images_directory
     local_photo = Photo.get_image_from_url(photo.url)
     #Display the image on the terminal
-    show_image_catpix(local_photo)
-    puts "--------- LIKES ----------"
-    puts "          You have: #{photo.get_like_count} Likes         "
 
-    puts "--------------------------"
-    puts "--------------------------"
+    rows = []
+    table = Terminal::Table.new do |t|
+      t << ['LIKES']
+      t << :separator
+      t << ["You have: #{photo.get_like_count} Likes"]
 
-    puts "------- COMMENTS ---------"
+      t << :separator
+      t << :separator
 
-
-    photo.get_photo_comments.each do |comment|
-      puts "#{comment.get_user.username}:: #{comment.message}"
+      t.add_row ['COMMENTS']
+      t << :separator
+      photo.get_photo_comments.each do |comment|
+        t << ["#{comment.get_user.username} :: #{comment.message}"]
+      end
+      t << :separator
+      t << :separator
     end
+    show_image_catpix(local_photo)
+    puts table
 
-    puts "--------------------------"
-    puts "--------------------------"
   end
 
 

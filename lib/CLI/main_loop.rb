@@ -1,12 +1,14 @@
+require 'terminal-table'
+
+PROMPT = TTY::Prompt.new
+
 def login_or_create_account(login_choice)
-  if login_choice == "LOGIN"
+  if login_choice == "login"
     login
-  elsif login_choice == "CREATE"
+  elsif login_choice == "create"
     create_account
   else
-    return "Try again"
-    login_choice=gets.chomp
-    login_or_create_account(login_choice)
+    puts "Something Went Wrong... (login_or_create_account)."
   end
 end
 
@@ -16,59 +18,40 @@ def main_menu(x)
   puts ""
   exit_app = false
   while(!exit_app) do
-    puts "What do you want to do #{x.username}? "
-    puts "1. View a profile"
-    puts "2. View own profile"
-    puts "3. Follow a user"
-    puts "4. See Your Followers"
-    puts "5. See Who You Follow"
-    puts "6. Post A Photo"
-    puts "10. Log Out"
 
-    puts ""
-    puts ""
-    
+    puts "What do you want to do #{x.username}?"
 
-    puts "Enter an option from above"
-    response = gets.chomp
-    case response.to_i
-    when 1
-      puts "Enter a username:"
-      desired = gets.chomp
-      x.show_user_feed(desired)
-    when 2
+    choices = ["View a profile", "View own profile", "Follow a user", "See Your Followers", "See Who You Follow", "Post A Photo", "Log Out"]
+    response = PROMPT.enum_select("What would you like to do?", choices).chomp
+    case response
+    when choices[0] #view a profile
+      desired = PROMPT.ask('Enter Username:').chomp
+      x.show_followed_user_feed(desired)
+    when choices[1] #view own profi;e
       x.display_feed
-    when 3
-      desired= gets.chomp
+    when choices[2] #follow a user
+     desired = PROMPT.ask('Enter Username To Follow:').chomp
       x.follow_via_username(desired)
-    when 4
-      x.get_followers.each { |fol| puts fol.username}
-    when 5
-      x.get_followed.each { |fol| puts fol.username}
-    when 6
-      puts "Enter the direct link of an image:"
-      user_image_url = gets.chomp
+    when choices[3] # see your followers
+      x.get_followers.each { |fol| puts fol.username }
+    when choices[4] #see who you follow
+      x.get_followed.each { |fol| puts fol.username }
+    when choices[5] #post a phoo
+      user_image_url = PROMPT.ask('Enter Image URL to Post:').chomp
       x.post_via_url(user_image_url)
-    when 10
+    when [6]
       exit_app = true
       puts "See you next time!"
     end
-    #   views_from_the_six
-    # when 3
-    #   follow
-    # when 4
+
   end
 end
 
-def post
-  puts "whaddaya wanna post yo"
-end
-
 def login
-  puts "What's your username?"
-  user=gets.chomp
-  puts "What's your password? [look over your shoulder before typing (trust no-one)]"
-  password=gets.chomp
+  user = PROMPT.ask('Enter Username:').chomp.downcase
+  puts "[Look over your shoulder before typing (trust no-one)]"
+  password = PROMPT.ask("Enter Password:").chomp
+  puts ""
   log_me_in(user,password)
 end
 
@@ -89,10 +72,23 @@ def create_account
 end
 
 def run
-  puts "Login (type: 'LOGIN'), or create an account(type: 'CREATE'): "
-  login_choice = gets.chomp
-  x=login_or_create_account(login_choice)
-  main_menu(x)
+#  table = Terminal::Table.new :headings => ['LOGIN'], :rows => rows, :style => {:width => 80}
+Catpix::print_image './lib/CLI/instagram-new.jpg',
+  :limit_x => 0.4,
+  :limit_y =>  0,
+  :center_x => true,
+  :center_y => true,
+  :bg => "white",
+  :bg_fill => false,
+  :resolution => "high"
+
+  login_choice = PROMPT.select("Choose your destiny?", %w(Login Create Exit)).downcase
+  if(login_choice != "exit")
+    x= login_or_create_account(login_choice)
+    main_menu(x)
+  else
+    puts "Fine, Ciao Loser."
+  end
 end
 
 def follow

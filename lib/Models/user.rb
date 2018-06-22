@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   end
 
   def display_feed
-    self.show_user_feed(self.username)
+    self.show_user_feed(self)
   end
 
   def self.find_user(username_str)
@@ -96,8 +96,8 @@ class User < ActiveRecord::Base
   def get_followed
     #returns ,people we have followed
     followed_users = self.following_users
-    if(follower_array.count > 1)
-      follower_array
+    if(followed_users.count > 1)
+      followed_users
     else
       puts "You're not following anyone...????"
     end
@@ -108,18 +108,22 @@ class User < ActiveRecord::Base
     follows.all.find { |user| user.username == username_str }
   end
 
-  def show_user_feed(username)
+  def show_followed_user_feed(username)
     user_to_display = find_followed_user(username)
+    show_user_feed(user_to_display)
+  end
+
+  def show_user_feed(user_to_display)
     if(user_to_display) then
-      photos_of_user_array = Photo.all.select {|photo| photo.user_id = user_to_display.id}
+      photos_of_user_array = user_to_display.photos
       currentPos = 0
       exit_loop = false
       while(!exit_loop) do
         photo = photos_of_user_array[currentPos]
         Photo.load_image(photo) #Loads the image into the temrinal and loads the photos comments.
-        puts "Commands: like, comment, next, previous, exit"
-        input = gets.chomp
-        case input
+        commands = %w(like comment next previous exit)
+        prompt = PROMPT.enum_select("What would you like to do?", commands).chomp
+        case prompt
           when "comment"
             puts "Enter a comment:"
             comment = gets.chomp
