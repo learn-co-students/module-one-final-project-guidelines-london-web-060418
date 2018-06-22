@@ -13,17 +13,16 @@ class NutritionFact < ActiveRecord::Base
     ingredient_string
   end
 
-
   def get_data
     url = "https://trackapi.nutritionix.com/v2/natural/nutrients/"
     response = RestClient.post(url, {query: generate_query_string}.to_json, {
       "Content-Type" => "application/json",
-      "x-app-id" => "e9b0130f",
-      "x-app-key" => "4c0a16bd2267c3640d1917a1d3438fca"
+      "x-app-id" => "ba45cf18",
+      "x-app-key" => "2b0d1f836f11eb4af9a8d75c500d2372"
     })
-
     nutrion_hash = JSON.parse(response)
   end
+
 
   def get_macro(macro)
     get_data["foods"].map do |food|
@@ -37,4 +36,8 @@ class NutritionFact < ActiveRecord::Base
     self.fat = get_macro("nf_total_fat")
   end
 
+  def set_ingredient_measurments(ingredient)
+    ingredient.quantity = get_data["foods"][0]["tags"]["quantity"]
+    ingredient.serving_unit = get_data["foods"][0]["serving_unit"]
+  end
 end

@@ -6,6 +6,8 @@ class CreateIngredientsTable < ActiveRecord::Migration[5.0]
       t.integer :protein
       t.integer :carbs
       t.integer :fat
+      t.string :serving_unit
+      t.string :quantity
     end
   end
 end
