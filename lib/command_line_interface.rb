@@ -1,7 +1,22 @@
 
 class CLI
   def welcome
-    puts "Hello! My name is Professor Oakiron. My, you've grown!".yellow.on_blue
+    @pid = fork{ exec 'afplay', "lib/opening.mp3" }
+    puts_slow "Hello! My name is Professor Oakiron. My, you've grown!".yellow.on_blue
+  end
+
+  def quit
+    fork{ exec 'killall', "afplay" }
+    exit
+  end
+
+  def puts_slow(str)
+    chars = str.split(//)
+    chars.each do |c|
+      print c
+      sleep 0.05
+    end
+    print "\n"
   end
 
   def get_input
@@ -11,7 +26,7 @@ class CLI
   end
 
   def sign_in
-    puts "Please type your name:".yellow.on_blue
+    puts_slow "Please type your name:".yellow.on_blue
   end
 
   def get_username
@@ -20,16 +35,16 @@ class CLI
   end
 
   def congrats
-    puts "Well, you're all signed in now, #{@user.name}.".yellow.on_blue
+    puts_slow "Well, you're all signed in now, #{@user.name}.".yellow.on_blue
     sleep(1.seconds)
-    puts "Here, we'll give you one pokemon to start off with.".yellow.on_blue
+    puts_slow "Here, we'll give you one pokemon to start off with.".yellow.on_blue
     sleep(1.seconds)
     bar = ProgressBar.new(50, :bar, :percentage)
     50.times do
       sleep 0.05
       bar.increment!
     end
-    puts "Off you go! Take good care of your pokemon!".yellow.on_blue
+    puts_slow "Off you go! Take good care of your pokemon!".yellow.on_blue
     @user.pokemons << Pokemon.all.sample
     sleep(2.seconds)
     menu
@@ -44,9 +59,9 @@ class CLI
         when choices[0]
           Pokemon.display_all_pokemon
         when choices[1]
-          puts "Alright! Your team is:".yellow.on_blue
+          puts_slow "Alright! Your team is:".yellow.on_blue
           @user.pokemons.pluck(:name).each do |name|
-            puts name.colorize(color: :yellow)
+            puts_slow name.colorize(color: :yellow)
           end
         when choices[2]
           @user.battle_pokemon
@@ -56,20 +71,20 @@ class CLI
         when choices[4]
           @user.lucky_dip
         when choices[5]
-          exit
+          quit
         else
-          puts "Sorry! That's not a valid choice. Here are the options again:".yellow.on_blue
+          puts_slow "Sorry! That's not a valid choice. Here are the options again:".yellow.on_blue
           menu
         end
       return_to_menu
     end
 
     def return_to_menu
-      puts "Would you like to return to the menu? Hit enter if yes, otherwise type 'exit' to exit.".yellow.on_blue
+      puts_slow "Would you like to return to the menu? Hit enter if yes, otherwise type 'exit' to exit.".yellow.on_blue
         user_input = gets.chomp
         case user_input
         when "exit"
-          exit
+          quit
         else
           menu
         end
