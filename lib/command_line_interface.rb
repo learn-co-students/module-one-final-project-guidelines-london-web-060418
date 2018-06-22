@@ -1,4 +1,4 @@
-require "pry"
+
 class CLI
   def welcome
     puts "Hello! My name is Professor Oakiron. My, you've grown!"
@@ -19,47 +19,43 @@ class CLI
 
   def congrats
     puts "Well, you're all signed in now, #{@user.name}."
-    sleep(2.seconds)
+    sleep(1.seconds)
     puts "Here, we'll give you one pokemon to start off with."
-    sleep(2.seconds)
+    bar = ProgressBar.new(50, :bar, :percentage)
+    50.times do
+      sleep 0.1
+      bar.increment!
+    end
     puts "Off you go! Take good care of your pokemon!"
     @user.pokemons << Pokemon.all.sample
+    sleep(2.seconds)
     menu
   end
 
   def menu
-    puts "
-    Main menu:
-
-          1. Display all pokemon in the pokedex
-          2. View your team
-          3. Catch a new pokemon
-          4. Release one of your pokemon
-          5. Lucky dip
-          6. Exit 
-
-      Please tell me what you'd like to do! Type the number of the task."
-
+    prompt = TTY::Prompt.new
+    choices = [ "Display all pokemon in the pokedex", "View your team", "Catch a new pokemon", "Release one of your pokemon", "Lucky dip", "Exit"]
+    prompt.enum_select("Main menu:", choices)
       user_input = gets.chomp.to_i
       case user_input
-      when 1
-        Pokemon.display_all_pokemon
-      when 2
-        puts "Alright! Your team is:"
-        puts @user.pokemons.pluck(:name)
-      when 3
-        @user.battle_pokemon
-      when 4
-        @user.remove_pokemon_from_team
-      when 5
-        @user.lucky_dip
-      when 6
-        exit
-      else
-        puts "Sorry! That's not a valid choice. Here are the options again:"
-        menu
-      end
-      return_to_menu
+      # when 1
+      #   Pokemon.display_all_pokemon
+      # when 2
+      #   puts "Alright! Your team is:"
+      #   puts @user.pokemons.pluck(:name)
+      # when 3
+      #   @user.battle_pokemon
+      # when 4
+      #   @user.remove_pokemon_from_team
+      # when 5
+      #   @user.lucky_dip
+      # when 6
+      #   exit
+      # else
+      #   puts "Sorry! That's not a valid choice. Here are the options again:"
+      #   menu
+      # end
+      # return_to_menu
     end
 
     def return_to_menu
@@ -71,5 +67,5 @@ class CLI
         else
           menu
         end
-      end
+    end
 end
