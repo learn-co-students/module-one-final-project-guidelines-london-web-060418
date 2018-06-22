@@ -6,6 +6,10 @@ class User < ActiveRecord::Base
     self.pokemons
   end
 
+  # def add_pokemon
+  #   self.pokemons << Pokemon.all.sample
+  # end
+
   AVAILABLE_MOVES = ["Bind", "Fly", "Double Slap", "Egg Bomb", "Headbutt"]
 
   def move
@@ -40,7 +44,8 @@ class User < ActiveRecord::Base
     pokemon = find_pokemon_in_pokedex
     puts "A wild #{pokemon.name} appeared!"
     puts "Go! #{team.first.name}!"
-    while true
+    tap_out = 0
+    while true && tap_out < 3
       choice = move
       puts "Use #{AVAILABLE_MOVES[choice-1]}!"
       puts "Threw a pokeball."
@@ -56,6 +61,7 @@ class User < ActiveRecord::Base
         break
       else
         puts "Not quite... They're getting weaker, try again!"
+        tap_out += 1
       end
     end
   end
@@ -83,9 +89,12 @@ class User < ActiveRecord::Base
 
   def lucky_dip
     puts "Some pokemon aren't very lucky - no one picks them :( they just want a chance to be somebody's best bud."
-    sleep(2.seconds)
+    puts "."
+    sleep(1.seconds)
+    puts ".."
+    sleep(1.seconds)
     puts "..."
-    sleep(2.seconds)
+    sleep(1.seconds)
     puts "...Surprise! We just added a random pokemon to your team <3"
     self.pokemons << Pokemon.all.sample
   end

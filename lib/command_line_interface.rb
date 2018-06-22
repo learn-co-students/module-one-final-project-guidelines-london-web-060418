@@ -18,7 +18,12 @@ class CLI
   end
 
   def congrats
-    puts "Well, you're all signed in now, #{@user.name}. Off you go! Take good care of your pokemon! "
+    puts "Well, you're all signed in now, #{@user.name}."
+    sleep(2.seconds)
+    puts "Here, we'll give you one pokemon to start off with."
+    sleep(2.seconds)
+    puts "Off you go! Take good care of your pokemon!"
+    @user.pokemons << Pokemon.all.sample
     menu
   end
 
@@ -31,6 +36,7 @@ class CLI
           3. Catch a new pokemon
           4. Release one of your pokemon
           5. Lucky dip
+          6. Exit 
 
       Please tell me what you'd like to do! Type the number of the task."
 
@@ -41,15 +47,14 @@ class CLI
       when 2
         puts "Alright! Your team is:"
         puts @user.pokemons.pluck(:name)
-        puts "
-What a great bunch!
-        "
       when 3
         @user.battle_pokemon
       when 4
         @user.remove_pokemon_from_team
       when 5
         @user.lucky_dip
+      when 6
+        exit
       else
         puts "Sorry! That's not a valid choice. Here are the options again:"
         menu
