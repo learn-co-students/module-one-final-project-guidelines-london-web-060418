@@ -4,7 +4,7 @@ class Pokemon < ActiveRecord::Base
 
   def self.display_all_pokemon
     Pokemon.all.each do |pokemon|
-      puts pokemon.name
+      puts pokemon.name.colorize(:color => :yellow)
     end
   end
 
