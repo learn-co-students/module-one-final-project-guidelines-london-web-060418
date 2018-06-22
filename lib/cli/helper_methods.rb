@@ -40,12 +40,13 @@ def generate_recipe(user)
 
     if input == "y" || input == "yes"
       PersonalRecipe.create(template_recipe_id: recipe.template_recipe_id, user_id: user.id)
+      system("clear")
       puts "   - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
       puts "      The recipe has been added to your Recipe Book!\n"
       puts "   - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
       break
     elsif input == "n" || input == "no"
-      puts "\nBon appetit!\n"
+      system("clear")
       break
     else
       puts "I'm sorry, but I need a 'Yes'('Y') or a 'No'('N')"
@@ -70,6 +71,7 @@ def prompt_for_portions
     puts "How many people are you cooking for?"
     input = gets.strip
     if ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].include?(input)
+      system("clear")
       return input
     else
       puts " Invalid command. Please try again."
@@ -77,25 +79,22 @@ def prompt_for_portions
   end
 end
 
-
-
-
-
 def display_recipe(recipe)
+  system("clear")
   instructions = JSON.parse(recipe.instructions)
   ingredients = recipe.ingredients
   num_of_portions = prompt_for_portions
   ingredient_quantity = get_portions(ingredients, num_of_portions)
   nutrition = NutritionFact.find_by(recipe_id: recipe.id)
-  puts "        - - - #{recipe.name} - - -"
+  puts "\n        - - - #{recipe.name} - - -"
   puts "\n  INGREDIENTS:\n"
   ingredients.each do |ing|
     i = ingredients.index(ing)
-    puts "o #{ing.name} #{ingredient_quantity[i]}"
+    puts " o #{ing.name} #{ingredient_quantity[i]}"
   end
   puts "\n  INSTRUCTIONS:\n"
   instructions.each do |step, instruction|
-    puts "#{step} - #{instruction}"
+    puts " #{step} - #{instruction}"
   end
   puts "\n  NUTRITIONAL FACTS:"
   print " Carbohydates: #{nutrition[:carbs]}g -"
@@ -103,23 +102,24 @@ def display_recipe(recipe)
   puts " Fats: #{nutrition[:fat]}g"
 end
 
-
 #2 - RECIPE BOOK
 def recipe_book(user)
+  system("clear")
   book = PersonalRecipe.all.select do |p_r|
     p_r.user == user
   end
   loop do
-    puts "\n~ ~ ~ ~ ~ ~ RECIPE BOOK ~ ~ ~ ~ ~ ~\n\n"
+    puts "\n~ ~ ~ ~ ~ ~ ~ ~ ~ RECIPE BOOK ~ ~ ~ ~ ~ ~ ~ ~ ~\n\n"
     book.each_with_index do |recipe, index|
       puts " #{index + 1}. #{recipe.name}"
     end
     puts " 0. Close Recipe Book"
-    puts "\n Enter the NUMBER for the recipe you'd like to see:"
+    puts "\n Enter the NUMBER for the recipe you'd like to see:".light_black
     input = gets.strip.to_i
     recipe = book[input - 1]
 
     if input == 0
+      system("clear")
       break
 
     elsif input <= book.length
@@ -129,24 +129,30 @@ def recipe_book(user)
       puts " 2. Remove recipe from Recipe Book"
       puts " 3. Go back to Recipe Book"
       puts " 4. Return to Main Menu"
-      puts "\nEnter the number or the first word of a command:"
+      puts "\n Enter the number or the first word of a command:".light_black
       input2 = gets.strip.downcase
 
       case input2
       when "1", "edit" then
-        puts "Current recipe name: #{recipe.name}"
-        print "New recipe name: "
+        system("clear")
+        puts " Current recipe name: #{recipe.name}"
+        print " New recipe name: "
         recipe.name = gets.strip
         recipe.save
       when "2", "remove" then
+        system("clear")
         recipe.destroy
         book = PersonalRecipe.all.select do |p_r|
           p_r.user == user
         end
+        puts "\n   - - - - - - - - - - - - - - - -"
+        puts "    The recipe has been deleted"
+        puts "   - - - - - - - - - - - - - - - -\n"
       when "3", "go" then
         recipe_book(user)
         break
       when "4", "return" then
+        system("clear")
         break
       else
         puts "Invalid command. Please try again."
@@ -161,6 +167,7 @@ end
 
 #3 - HELP INFORMATION
 def help_info
+  system("clear")
   puts "\n Help - Shows information about commands"
   puts "\n 1 . Generate New Recipe"
   puts "       Creates a new recipe using random ingredients."
@@ -173,12 +180,14 @@ end
 
 #RUN PROGRAM
 def run
-  puts "\n\n/\\/\\/\\/\\/\\ - VEGAN GENERATOR - /\\/\\/\\/\\/\\"
+  system("clear")
+  puts "\n\n/\\/\\/\\/\\/\\ - VEGAN GENERATOR - /\\/\\/\\/\\/\\".green
   user = nil
   loop do
     start_menu
-    puts "\nEnter a command or number:"
+    puts "\n Enter a command or number:".light_black
     input = gets.strip.downcase
+    system("clear")
     case input
 
     when "1", "login"
@@ -194,12 +203,14 @@ def run
           user = User.find_by(username: username)
           break
         else
+          system("clear")
           puts "   - - - - - - - - - - - - - - - - - -"
           puts "   - X - X - Wrong password - X - X -"
           puts "   - - - - - - - - - - - - - - - - - -"
         end
 
       else
+        system("clear")
         puts "   - - - - - - - - - - - - - - - - - - - - - - - -"
         puts "   - X - X - That account doesn't exist - X - X -"
         puts "   - - - - - - - - - - - - - - - - - - - - - - - -"
@@ -211,13 +222,16 @@ def run
       username = gets.strip
 
       if User.find_by(username: username)
-        puts "\n - X - X - This account already exists - X - X -\n"
+        system("clear")
+        puts "\n - X - X - That account already exists - X - X -\n"
       elsif username.empty?
+        system("clear")
         puts "\n Username must have at least 1 character"
       else
         print " Password: "
         password = gets.strip
         User.create(username: username, password: password)
+        system("clear")
         puts "\n   - - - - - - - - - - - - - - - -"
         puts "   New account succesfully created"
         puts "   - - - - - - - - - - - - - - - -\n"
@@ -232,11 +246,12 @@ def run
   end
 
   if user != nil
+    system("clear")
     puts "\nWelcome User! I'll be your Recipe Rabbit for today!\n\n"
     display_image
     loop do
       main_menu
-      puts "\nEnter the number or the first word of a command:"
+      puts "\n Enter the number or the first word of a command:".light_black
       input = gets.strip.downcase
       case input
 
@@ -249,6 +264,7 @@ def run
       when "3", "help" then help_info
 
       when "4", "exit" then
+        system("clear")
         puts "\n Catch you later, doc!\n\n"
         break
 
