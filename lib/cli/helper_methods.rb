@@ -68,7 +68,7 @@ def display_recipe(recipe)
   puts "\n  NUTRITIONAL FACTS:"
   print " Carbohydates: #{nutrition[:carbs]}g -"
   print " Protein: #{nutrition[:protein]}g -"
-  puts "Fats: #{nutrition[:fat]}g"
+  puts " Fats: #{nutrition[:fat]}g"
 end
 
 #2 - RECIPE BOOK
@@ -90,36 +90,29 @@ def recipe_book(user)
 
     elsif input <= book.length
       display_recipe(book[input - 1])
-      puts "\n What would you like to do with this recipe:\n"
-      puts " 1. Change recipe name"
+      puts "\n What would you like to do with this recipe?"
+      puts " 1. Edit recipe's name"
       puts " 2. Remove recipe from Recipe Book"
       puts " 3. Go back to Recipe Book"
       puts " 4. Return to Main Menu"
+      puts "\nEnter the number or the first word of a command:"
       input2 = gets.strip.downcase
 
       case input2
-      when "1" then
-
-      when "2" then
-
-      when "3" then
-
-      when "4" then
-
+      when "1", "edit" then
+        print "New recipe name: "
+        book[input - 1].name = gets.strip
+        book[input - 1].save
+      when "2", "remove" then
+        book[input - 1].destroy
+        book.reload
+      when "3", "go" then
+        recipe_book(user)
+        break
+      when "4", "return" then
+        break
       else
-
-      end
-      # if input2 == "y" || input2 == "yes"
-      #   recipe_book(user)
-      #   break
-      #
-      # elsif input2 == "n" || input2 == "no"
-      #   break
-      #
-      # else
-      #   puts "I'm sorry, but I need a 'Yes'('Y') or a 'No'('N')"
-      # end
-
+        puts "Invalid command. Please try again."      end
     else
       " Please enter a number between 0 and #{book.length}."
     end
