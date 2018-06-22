@@ -114,7 +114,7 @@ def recipe_book(user)
       puts " #{index + 1}. #{recipe.name}"
     end
     puts " 0. Close Recipe Book"
-    puts "\n Enter the NUMBER for the recipe you'd like to see:"
+    puts "\n Enter the NUMBER for the recipe you'd like to see:".light_black
     input = gets.strip.to_i
     recipe = book[input - 1]
 
@@ -129,7 +129,7 @@ def recipe_book(user)
       puts " 2. Remove recipe from Recipe Book"
       puts " 3. Go back to Recipe Book"
       puts " 4. Return to Main Menu"
-      puts "\n Enter the number or the first word of a command:"
+      puts "\n Enter the number or the first word of a command:".light_black
       input2 = gets.strip.downcase
 
       case input2
@@ -181,11 +181,11 @@ end
 #RUN PROGRAM
 def run
   system("clear")
-  puts "\n\n/\\/\\/\\/\\/\\ - VEGAN GENERATOR - /\\/\\/\\/\\/\\"
+  puts "\n\n/\\/\\/\\/\\/\\ - VEGAN GENERATOR - /\\/\\/\\/\\/\\".green
   user = nil
   loop do
     start_menu
-    puts "\nEnter a command or number:"
+    puts "\n Enter a command or number:".light_black
     input = gets.strip.downcase
     system("clear")
     case input
@@ -251,7 +251,7 @@ def run
     display_image
     loop do
       main_menu
-      puts "\n Enter the number or the first word of a command:"
+      puts "\n Enter the number or the first word of a command:".light_black
       input = gets.strip.downcase
       case input
 
