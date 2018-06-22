@@ -10,6 +10,7 @@ class PersonalRecipe < ActiveRecord::Base
   def copy_attributes
     self.template_recipe_id = Recipe.last.template_recipe_id
     self.instructions = Recipe.last.instructions
+    self.name = Recipe.last.name
     Recipe.last.ingredients.each do |ing|
       RecipeIngredient.create(personal_recipe: self, ingredient: ing)
     end
