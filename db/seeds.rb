@@ -69,7 +69,6 @@ TemplateRecipe.create(
 # )
 
 
-
 TemplateRecipe.create(
   meal: "Stir-fry",
   avg_cooking_time: 40,
