@@ -65,14 +65,21 @@ def get_portions(ingredients, num_of_portions)
 end
 
 def prompt_for_portions
-  puts "How many people are you cooking for?"
+  loop do
+    puts "How many people are you cooking for?"
+    input = gets.strip
+    if ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].include?(input)
+      return input
+    else
+      puts " Invalid command. Please try again."
+    end
+  end
 end
 
 def display_recipe(recipe)
   instructions = JSON.parse(recipe.instructions)
   ingredients = recipe.ingredients
-  prompt_for_portions
-  num_of_portions = gets.chomp
+  num_of_portions = prompt_for_portions
   ingredient_quantity = get_portions(ingredients, num_of_portions)
   nutrition = NutritionFact.find_by(recipe_id: recipe.id)
   puts "        - - - #{recipe.name} - - -"
@@ -136,10 +143,12 @@ def recipe_book(user)
       when "4", "return" then
         break
       else
-        puts "Invalid command. Please try again."      end
+        puts "Invalid command. Please try again."
+      end
     else
       puts " Please enter a number between 0 and #{book.length}."
       recipe_book(user)
+      break
     end
   end
 end
@@ -194,8 +203,11 @@ def run
       puts "\n      S I G N   U P\n\n"
       print " Username: "
       username = gets.strip
+
       if User.find_by(username: username)
         puts "\n - X - X - This account already exists - X - X -\n"
+      elsif username.empty?
+        puts "\n Username must have at least 1 character"
       else
         print " Password: "
         password = gets.strip
