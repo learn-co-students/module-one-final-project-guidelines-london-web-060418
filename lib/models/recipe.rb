@@ -94,7 +94,8 @@ class Recipe < ActiveRecord::Base
 
   def update_ingredient_quanity
     self.ingredients.each do |ingredient|
-      nutrition_fact.set_ingredient_measurments(ingredient)
+      i = self.ingredients.index(ingredient)
+      nutrition_fact.set_ingredient_measurments(ingredient, i)
       ingredient.save
     end
   end
