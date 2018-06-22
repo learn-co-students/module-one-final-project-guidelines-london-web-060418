@@ -41,8 +41,7 @@ class Recipe < ActiveRecord::Base
   end
 
   def generate_name
-  "#{template_recipe.meal} with #{generate_string_from_relevant_ingredients}"
-
+    "#{template_recipe.meal} with #{generate_string_from_relevant_ingredients}"
   end
 
   def generate_recipe_ingredient(category)
