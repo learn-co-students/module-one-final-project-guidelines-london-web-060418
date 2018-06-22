@@ -19,6 +19,7 @@ class Recipe < ActiveRecord::Base
     generate_nutrition_data
     get_nutrition_data
     self.name = self.generate_name
+    update_ingredient_quanity
 
     self.save
   end
@@ -42,7 +43,6 @@ class Recipe < ActiveRecord::Base
 
   def generate_name
   "#{template_recipe.meal} with #{generate_string_from_relevant_ingredients}"
-
   end
 
   def generate_recipe_ingredient(category)
@@ -86,6 +86,13 @@ class Recipe < ActiveRecord::Base
       carbs: nutrition_fact.carbs,
       fat: nutrition_fact.fat
     }
+  end
+
+  def update_ingredient_quanity
+    self.ingredients.each do |ingredient|
+      nutrition_fact.set_ingredient_measurments(ingredient)
+      ingredient.save
+    end
   end
 
 end
