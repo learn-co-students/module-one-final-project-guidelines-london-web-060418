@@ -24,6 +24,92 @@ TemplateRecipe.create(
   }"
 )
 
+TemplateRecipe.create(
+  meal: "Buddha bowl",
+  avg_cooking_time: 40,
+  ingredient_requirement: "{
+    \"grains\":1,
+    \"proteins\":1,
+    \"veg\":3,
+    \"base_ingredients\":[
+      \"Oil\",
+    ]
+  }",
+  instructions: "{
+    \"1\":\"Put the grains in a pan, add double the amount of water and put to boil\",
+    \"2\":\"Clean and/or peel the vegetables and bake them for 20 minutes in 200 C.\",
+    \"3\":\"If the water has boiled away and grain is not soft add half a cup of water.\",
+    \"4\":\"Fry the protein in salt and pepper and oil for 10 minutes\",
+    \"5\":\"When everything is cooked throw grain in the bowl and vegetables and protein on top\",
+    \"6\":\"Add your favourite condiments\",
+    \"optional\":\"Mix together 1/4 cup tahini, 1 tbsp of maple syrup, lemon juice and hot water and pour on top.\"
+  }"
+)
+
+TemplateRecipe.create(
+  meal: "Burrito",
+  avg_cooking_time: 30,
+  ingredient_requirement: "{
+    \"grains\":1,
+    \"proteins\":1,
+    \"veg\":3,
+    \"base_ingredients\":[
+      \"Oil\",
+      \"Tortilla\",
+    ]
+  }",
+  instructions: "{
+    \"1\":\"Put the grains in a pan, add double the amount of water and put to boil.\",
+    \"2\":\"Clean and/or peel the vegetables, slice them small and fry them in a pan with oil, salt and pepper.\",
+    \"3\":\"If the water has boiled away and grain is not soft add half a cup of water.\",
+    \"4\":\"Fry the protein in salt and pepper and oil for 10 minutes.\",
+    \"5\":\"When everything is cooked add a scoop of everything onto the tortillas and wrap them up.\",
+    \"optional\":\"Add raw tomato, salad or veganaise.\"
+  }"
+)
+
+TemplateRecipe.create(
+  meal: "Stir-fry",
+  avg_cooking_time: 40,
+  ingredient_requirement: "{
+    \"grains\":1,
+    \"proteins\":1,
+    \"veg\":3,
+    \"base_ingredients\":[
+      \"Oil\",
+    ]
+  }",
+  instructions: "{
+    \"1\":\"Put the grains in a pan, add double the amount of water and put to boil\",
+    \"2\":\"Clean and/or peel the vegetables and fry them in oil with protein.\",
+    \"3\":\"If the water has boiled away and grain is not soft add half a cup of water.\",
+    \"5\":\"When grain is cooked throw grain in with the vegetables and protein\",
+    \"6\":\"Season with salt and pepper.\"
+    \"optional\":\"Throw in some sriracha or vegan soy sauce for taste.\"
+  }"
+)
+ TemplateRecipe.create(
+  meal: "Salad",
+  avg_cooking_time: 40,
+  ingredient_requirement: "{
+    \"grains\":1,
+    \"proteins\":1,
+    \"veg\":3,
+    \"base_ingredients\":[
+      \"Oil\",
+    ]
+  }",
+  instructions: "{
+    \"1\":\"Put the grains in a pan, add double the amount of water and put to boil\",
+    \"2\":\"Clean and/or peel the vegetables and cut them into fine slices\",
+    \"3\":\"If the water has boiled away and grain is not soft add half a cup of water.\",
+    \"5\":\"Fry protein for 15 minutes in oil, season with salt and pepper.\",
+    \"6\":\"When everything is cooked, cool them down.\",
+      \"6\":\"Put everything in a bowl and season.\",
+    \"optional\":\"Mash in one avocado for a creamy taste or top with nuts and seeds.\"
+  }"
+)
+
 #INGREDIENTS
 quinoa = Ingredient.create(name: "Quinoa", category: "grain", protein: 10, carbs: 30, fat: 8)
 brown_rice = Ingredient.create(name: "Brown Rice", category: "grain", protein: 8, carbs: 38, fat: 5)
