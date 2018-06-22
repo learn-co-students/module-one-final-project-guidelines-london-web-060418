@@ -52,14 +52,34 @@ def generate_recipe(user)
   end
 end
 
+
+#Calculate quantity based on user input for amount of portions
+
+def get_portions(ingredients, num_of_portions)
+  ingredients_quantities = ingredients.map do |ingredient|
+    quantity = (ingredient.quantity.to_i / 3 * num_of_portions.to_i).to_s
+    unit = ingredient.serving_unit
+    "#{quantity} #{unit}(s)"
+  end
+  ingredients_quantities
+end
+
+def prompt_for_portions
+  puts "How many people are you cooking for?"
+end
+
 def display_recipe(recipe)
   instructions = JSON.parse(recipe.instructions)
   ingredients = recipe.ingredients
+  prompt_for_portions
+  num_of_portions = gets.chomp
+  ingredient_quantity = get_portions(ingredients, num_of_portions)
   nutrition = NutritionFact.find_by(recipe_id: recipe.id)
   puts "        - - - PLACEHOLDER - - -"
   puts "\n  INGREDIENTS:\n"
   ingredients.each do |ing|
-    puts "o #{ing.name}"
+    i = ingredients.index(ing)
+    puts "o #{ing.name} #{ingredient_quantity[i]}"
   end
   puts "\n  INSTRUCTIONS:\n"
   instructions.each do |step, instruction|
@@ -198,6 +218,7 @@ def run
       case input
 
       when "1", "generate" then
+
         generate_recipe(user)
 
       when "2", "browse" then recipe_book(user)
