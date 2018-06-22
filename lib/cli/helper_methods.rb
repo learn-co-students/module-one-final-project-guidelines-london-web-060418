@@ -112,19 +112,7 @@ def recipe_book(user)
       when "4", "return" then
         break
       else
-        puts "Invalid command. Please try again."
-      end
-      # if input2 == "y" || input2 == "yes"
-      #   recipe_book(user)
-      #   break
-      #
-      # elsif input2 == "n" || input2 == "no"
-      #   break
-      #
-      # else
-      #   puts "I'm sorry, but I need a 'Yes'('Y') or a 'No'('N')"
-      # end
-
+        puts "Invalid command. Please try again."      end
     else
       " Please enter a number between 0 and #{book.length}."
     end
