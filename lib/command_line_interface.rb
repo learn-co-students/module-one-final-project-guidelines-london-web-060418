@@ -21,9 +21,10 @@ class CLI
     puts "Well, you're all signed in now, #{@user.name}."
     sleep(1.seconds)
     puts "Here, we'll give you one pokemon to start off with."
+    sleep(1.seconds)
     bar = ProgressBar.new(50, :bar, :percentage)
     50.times do
-      sleep 0.1
+      sleep 0.05
       bar.increment!
     end
     puts "Off you go! Take good care of your pokemon!"
@@ -35,27 +36,26 @@ class CLI
   def menu
     prompt = TTY::Prompt.new
     choices = [ "Display all pokemon in the pokedex", "View your team", "Catch a new pokemon", "Release one of your pokemon", "Lucky dip", "Exit"]
-    prompt.enum_select("Main menu:", choices)
-      user_input = gets.chomp.to_i
+      user_input = prompt.enum_select("Main menu:", choices)
       case user_input
-      # when 1
-      #   Pokemon.display_all_pokemon
-      # when 2
-      #   puts "Alright! Your team is:"
-      #   puts @user.pokemons.pluck(:name)
-      # when 3
-      #   @user.battle_pokemon
-      # when 4
-      #   @user.remove_pokemon_from_team
-      # when 5
-      #   @user.lucky_dip
-      # when 6
-      #   exit
-      # else
-      #   puts "Sorry! That's not a valid choice. Here are the options again:"
-      #   menu
-      # end
-      # return_to_menu
+      when choices[0]
+        Pokemon.display_all_pokemon
+      when choices[1]
+        puts "Alright! Your team is:"
+        puts @user.pokemons.pluck(:name)
+      when choices[2]
+        @user.battle_pokemon
+      when choices[3]
+        @user.remove_pokemon_from_team
+      when choices[4]
+        @user.lucky_dip
+      when choices[5]
+        exit
+      else
+        puts "Sorry! That's not a valid choice. Here are the options again:"
+        menu
+      end
+      return_to_menu
     end
 
     def return_to_menu

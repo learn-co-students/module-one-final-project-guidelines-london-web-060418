@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
     puts "Who would you like to try and catch?"
     poke_to_add = Pokemon.find_by(name: gets.chomp.titleize)
     if !poke_to_add
-      puts "Not a pokemon. Try again!"
+      puts "Not a pokemon, doofus. Try again!"
       find_pokemon_in_pokedex
     else
       poke_to_add
@@ -56,14 +56,16 @@ class User < ActiveRecord::Base
       puts "..."
       sleep(1.seconds)
       if choice == rand(5)
-        self.pokemons << pokemon
-        puts "Congrats! You've caught #{pokemon.name}! ٩(｡•́‿•̀｡)۶"
         break
       else
         puts "Not quite... They're getting weaker, try again!"
         tap_out += 1
       end
     end
+
+    puts "Congrats! You've caught #{pokemon.name}! ٩(｡•́‿•̀｡)۶"
+    self.pokemons << pokemon
+
   end
 
 
