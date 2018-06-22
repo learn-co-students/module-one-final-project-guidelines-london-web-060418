@@ -31,13 +31,13 @@ class NutritionFact < ActiveRecord::Base
   end
 
   def set_total_macros
-    self.protein = get_macro("nf_protein")
-    self.carbs = get_macro("nf_total_carbohydrate")
-    self.fat = get_macro("nf_total_fat")
+    # self.protein = get_macro("nf_protein")
+    # self.carbs = get_macro("nf_total_carbohydrate")
+    # self.fat = get_macro("nf_total_fat")
   end
 
   def set_ingredient_measurments(ingredient,i)
-    # ingredient.quantity = get_data["foods"][i]["tags"]["quantity"]
-    # ingredient.serving_unit = get_data["foods"][i]["serving_unit"]
+  #   ingredient.quantity = get_data["foods"][i]["tags"]["quantity"]
+  #   ingredient.serving_unit = get_data["foods"][i]["serving_unit"]
   end
 end

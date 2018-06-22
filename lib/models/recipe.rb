@@ -14,12 +14,12 @@ class Recipe < ActiveRecord::Base
 
   def set_attributes
     self.template_recipe = TemplateRecipe.all.sample
-    self.instructions = self.template_recipe.instructions
     get_ingredients
     generate_nutrition_data
     get_nutrition_data
     self.name = self.generate_name
     update_ingredient_quantity
+    self.instructions = instructions
     self.save
   end
 
@@ -93,6 +93,20 @@ class Recipe < ActiveRecord::Base
       nutrition_fact.set_ingredient_measurments(ingredient, i)
       ingredient.save
     end
+  end
+
+  def get_ingredient_name_by_category(ing_cat)
+    x = self.ingredients.find do |ingredient|
+      ingredient.category == ing_cat
+    end
+    " #{x.name.downcase} "
+  end
+
+  def instructions
+    instructions = self.template_recipe.instructions.dup
+    instructions.gsub!(/(^|\W)grain($|\W)/, get_ingredient_name_by_category("grain"))
+    instructions.gsub!(/(^|\W)protein($|\W)/, get_ingredient_name_by_category("protein"))
+    self.instructions = instructions
   end
 
 end

@@ -36,7 +36,7 @@ TemplateRecipe.create(
     ]
   }",
   instructions: "{
-    \"1\":\"Put the grains in a pan, add double the amount of water and put to boil\",
+    \"1\":\"Put the grain in a pan, add double the amount of water and put to boil\",
     \"2\":\"Clean and/or peel the vegetables and bake them for 20 minutes in 200 C.\",
     \"3\":\"If the water has boiled away and grain is not soft add half a cup of water.\",
     \"4\":\"Fry the protein in salt and pepper and oil for 10 minutes\",
@@ -68,6 +68,7 @@ TemplateRecipe.create(
 #   }"
 # )
 
+
 TemplateRecipe.create(
   meal: "Stir-fry",
   avg_cooking_time: 40,
@@ -80,7 +81,7 @@ TemplateRecipe.create(
     ]
   }",
   instructions: "{
-    \"1\":\"Put the grains in a pan, add double the amount of water and put to boil\",
+    \"1\":\"Put the grain in a pan, add double the amount of water and put to boil\",
     \"2\":\"Clean and/or peel the vegetables and fry them in oil with protein.\",
     \"3\":\"If the water has boiled away and grain is not soft add half a cup of water.\",
     \"5\":\"When grain is cooked throw grain in with the vegetables and protein\",
@@ -88,6 +89,7 @@ TemplateRecipe.create(
     \"optional\":\"Throw in some sriracha or vegan soy sauce for taste.\"
   }"
 )
+
  TemplateRecipe.create(
   meal: "Salad",
   avg_cooking_time: 40,
@@ -100,7 +102,7 @@ TemplateRecipe.create(
     ]
   }",
   instructions: "{
-    \"1\":\"Put the grains in a pan, add double the amount of water and put to boil\",
+    \"1\":\"Put the grain in a pan, add double the amount of water and put to boil\",
     \"2\":\"Clean and/or peel the vegetables and cut them into fine slices\",
     \"3\":\"If the water has boiled away and grain is not soft add half a cup of water.\",
     \"5\":\"Fry protein for 15 minutes in oil, season with salt and pepper.\",
